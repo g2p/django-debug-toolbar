@@ -135,6 +135,3 @@ jQuery(function($j) {
 		}
 	});
 });
-jQuery(function() {
-	jQuery.djDebug();
-});
