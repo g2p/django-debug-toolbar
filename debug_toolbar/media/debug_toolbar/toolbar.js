@@ -1,4 +1,3 @@
-jQuery.noConflict();
 jQuery(function($j) {
 	var COOKIE_NAME = 'dj_debug_panel';
 	$j.djDebug = function(data, klass) {

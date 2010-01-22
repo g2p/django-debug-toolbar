@@ -3,10 +3,10 @@
 <script type="text/javascript" src="{{ BASE_URL }}/__debug__/m/toolbar.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 /* <![CDATA[ */
-	// Now that jQuery is done loading, put the '$' variable back to what it was...
-	jQuery.noConflict();
-	jQuery(document).ready(function() {
-		jQuery('head').append('<link rel="stylesheet" href="{{ BASE_URL }}/__debug__/m/toolbar.min.css" type="text/css" />');
+	// Now that jQuery is done loading, restore $ and jQuery.
+	jQueryDjDt = jQuery.noConflict(true);
+	jQueryDjDt(document).ready(function() {
+		jQueryDjDt('head').append('<link rel="stylesheet" href="{{ BASE_URL }}/__debug__/m/toolbar.min.css" type="text/css" />');
 	});
 /* ]]> */
 </script>
