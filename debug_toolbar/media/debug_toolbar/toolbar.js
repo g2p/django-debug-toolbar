@@ -14,8 +14,6 @@
 		document.documentElement.childNodes[0].appendChild(script)
 	}
 })(window, document, "1.3", function($, jquery_loaded) {
-
-	$.cookie = function(name, value, options) { if (typeof value != 'undefined') { options = options || {}; if (value === null) { value = ''; options.expires = -1; } var expires = ''; if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) { var date; if (typeof options.expires == 'number') { date = new Date(); date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000)); } else { date = options.expires; } expires = '; expires=' + date.toUTCString(); } var path = options.path ? '; path=' + (options.path) : ''; var domain = options.domain ? '; domain=' + (options.domain) : ''; var secure = options.secure ? '; secure' : ''; document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join(''); } else { var cookieValue = null; if (document.cookie && document.cookie != '') { var cookies = document.cookie.split(';'); for (var i = 0; i < cookies.length; i++) { var cookie = $.trim(cookies[i]); if (cookie.substring(0, name.length + 1) == (name + '=')) { cookieValue = decodeURIComponent(cookie.substring(name.length + 1)); break; } } } return cookieValue; } };
 	$('head').append('<link rel="stylesheet" href="'+BASEURL+'/__debug__/m/toolbar.min.css" type="text/css" />');
 	var COOKIE_NAME = 'djdt';
 	var djdt = {
@@ -86,7 +84,7 @@
 					return;
 				}
 			});
-			if ($.cookie(COOKIE_NAME)) {
+			if (djdt.cookie(COOKIE_NAME)) {
 				djdt.hide_toolbar(false);
 			} else {
 				djdt.show_toolbar(false);
@@ -115,7 +113,7 @@
 			// Unbind keydown
 			$(document).unbind('keydown.djDebug');
 			if (setCookie) {
-				$.cookie(COOKIE_NAME, 'hide', {
+				djdt.cookie(COOKIE_NAME, 'hide', {
 					path: '/',
 					expires: 10
 				});
@@ -134,7 +132,7 @@
 			} else {
 				$('#djDebugToolbar').show();
 			}
-			$.cookie(COOKIE_NAME, null, {
+			djdt.cookie(COOKIE_NAME, null, {
 				path: '/',
 				expires: -1
 			});
@@ -143,7 +141,44 @@
 			var uarr = String.fromCharCode(0x25b6);
 			var darr = String.fromCharCode(0x25bc);
 			elem.html(elem.html() == uarr ? darr : uarr);
-		}
+		},
+		cookie: function(name, value, options) {
+			if (typeof value != 'undefined') {
+				options = options || {};
+				if (value === null) {
+					value = '';
+					options.expires = -1;
+				}
+				var expires = '';
+				if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+					var date;
+					if (typeof options.expires == 'number') {
+						date = new Date();
+						date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+					} else {
+						date = options.expires;
+					}
+					expires = '; expires=' + date.toUTCString();
+				}
+				var path = options.path ? '; path=' + (options.path) : '';
+				var domain = options.domain ? '; domain=' + (options.domain) : '';
+				var secure = options.secure ? '; secure' : '';
+				document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+			} else {
+				var cookieValue = null;
+				if (document.cookie && document.cookie != '') {
+					var cookies = document.cookie.split(';');
+					for (var i = 0; i < cookies.length; i++) {
+						var cookie = $.trim(cookies[i]);
+						if (cookie.substring(0, name.length + 1) == (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+		},
 	};
 	$(document).ready(function() {
 		djdt.init();
